@@ -6,6 +6,7 @@ import { OrderDetailsService } from '../modules/orderDetails/orderDetails.servic
 import { SaleProductsService } from '../modules/saleProducts/saleProducts.service';
 import { TicketService } from '../modules/tickets/ticket.service';
 import { ProductService } from '../modules/products/product.service';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
 export class OrderRoutes {
   static get routes(): Router {
@@ -29,7 +30,7 @@ export class OrderRoutes {
     // Define routes
     router.get('/', orderController.getOrders);
     router.get('/:id', orderController.getOrderById);
-    router.post('/', orderController.createOrder);
+    router.post('/', [AuthMiddleware.validateJwt], orderController.createOrder);
     router.put('/:id', orderController.updateOrder);
     router.delete('/:id', orderController.deleteOrder);
 

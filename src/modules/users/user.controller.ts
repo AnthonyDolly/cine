@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
 import { CustomError } from '../../errors/custom.error';
-import { CreateUserDto } from './dtos/create-user.dto';
 
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -28,19 +27,6 @@ export class UserController {
     this.userService
       .getUserById(id)
       .then((user) => res.status(200).json(user))
-      .catch((error) => this.handleError(error, res));
-  };
-
-  createUser = async (req: Request, res: Response) => {
-    const [error, createUserDto] = CreateUserDto.create({
-      ...req.body,
-    });
-
-    if (error) return res.status(400).json({ error });
-
-    this.userService
-      .createUser(createUserDto!)
-      .then((user) => res.status(201).json(user))
       .catch((error) => this.handleError(error, res));
   };
 

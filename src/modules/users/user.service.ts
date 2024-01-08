@@ -1,7 +1,6 @@
 import { bcryptAdapter } from '../../config';
 import { UserModel } from '../../data';
 import { CustomError } from '../../errors/custom.error';
-import { CreateUserDto } from './dtos/create-user.dto';
 
 export class UserService {
   constructor() {}
@@ -18,23 +17,6 @@ export class UserService {
     if (!user) throw CustomError.notFound('User not found');
 
     return user;
-  }
-
-  async createUser(createUserDto: CreateUserDto) {
-    const existUser = await UserModel.findOne({ email: createUserDto.email });
-
-    if (existUser) throw CustomError.badRequest('Email already exists');
-
-    try {
-      const user = new UserModel(createUserDto);
-
-      user.password = bcryptAdapter.hash(createUserDto.password);
-
-      return await user.save();
-    } catch (error) {
-      console.log(error);
-      throw 'Error creating user';
-    }
   }
 
   async updateUser(id: string, data: any) {

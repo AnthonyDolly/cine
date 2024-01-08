@@ -26,10 +26,10 @@ export class OrderService {
     return order;
   }
 
-  async createOrder(createOrderDto: CreateOrderDto) {
-    const user = await this.getUser(createOrderDto.userId);
+  async createOrder(createOrderDto: CreateOrderDto, user: any) {
+    const userData = !user ? await this.getUser(undefined) : user;
 
-    const order = await this.createOrderRecord(user.id);
+    const order = await this.createOrderRecord(userData.id);
 
     const orderDetails = await this.createOrderDetails(
       order.id,

@@ -39,7 +39,7 @@ export class OrderController {
     if (error) return res.status(400).json({ error });
 
     this.orderService
-      .createOrder(createOrderDto!)
+      .createOrder(createOrderDto!, req.body.user)
       .then((order) => res.status(201).json(order))
       .catch((error) => this.handleError(error, res));
   };

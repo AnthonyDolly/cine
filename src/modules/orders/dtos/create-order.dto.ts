@@ -3,7 +3,6 @@ import { Validators } from '../../../config';
 export class CreateOrderDto {
   private constructor(
     public readonly ticketId: string[],
-    public readonly userId?: string,
     public readonly products?: {
       productId: string;
       quantity: number;
@@ -11,7 +10,7 @@ export class CreateOrderDto {
   ) {}
 
   static create(object: { [key: string]: any }): [string?, CreateOrderDto?] {
-    const { ticketId, userId, products } = object;
+    const { ticketId, products } = object;
 
     if (
       !ticketId ||
@@ -19,10 +18,6 @@ export class CreateOrderDto {
       ticketId.some((id) => !Validators.isMongoId(id) || !isNaN(id))
     ) {
       return ['Invalid ticketIdx'];
-    }
-
-    if (userId && !Validators.isMongoId(userId)) {
-      return ['Invalid userId'];
     }
 
     if (
@@ -49,7 +44,7 @@ export class CreateOrderDto {
       return ['Invalid quantity'];
     }
 
-    const createOrderDto = new CreateOrderDto(ticketId, userId, products);
+    const createOrderDto = new CreateOrderDto(ticketId, products);
 
     return [undefined, createOrderDto];
   }

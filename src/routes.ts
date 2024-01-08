@@ -11,12 +11,14 @@ import { SaleProductsRoutes } from './routes/saleProducts.routes';
 import { TicketRoutes } from './routes/ticket.routes';
 import { OrderRoutes } from './routes/order.routes';
 import { OrderDetailsRoutes } from './routes/orderDetails.routes';
+import { AuthRoutes } from './routes/auth.routes';
 
 export class AppRoutes {
   static get routes(): Router {
     const router = Router();
 
     // Definir las rutas
+    router.use('/api/auth', AuthRoutes.routes);
     router.use('/api/users', UserRoutes.routes);
     router.use('/api/movietheaters', MovieTheaterRoutes.routes);
     router.use('/api/seats', SeatRoutes.routes);
